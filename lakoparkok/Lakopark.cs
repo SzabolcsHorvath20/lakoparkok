@@ -12,6 +12,9 @@ namespace lakoparkok
         private int maxHazSzam;
         private string nev;
         private int utcakSzama;
+        private int elso;
+        private double beepitettseg;
+        private int bevetel;
 
         public Lakopark(string nev, int utcakSzama, int maxHazSzam, int[,] hazak)
         {
@@ -54,6 +57,23 @@ namespace lakoparkok
                 return utcakSzama;
             }
 
+        }
+        public int Elso
+        {
+            get { return elso; }
+            set { elso = value; }
+        }
+
+        public double Beepitettseg
+        {
+            get { return beepitettseg; }
+            set { beepitettseg = value; }
+        }
+
+        public int Bevetel
+        {
+            get { return bevetel; }
+            set { bevetel = value; }
         }
     }
 }

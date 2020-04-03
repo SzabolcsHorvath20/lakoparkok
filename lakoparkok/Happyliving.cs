@@ -57,5 +57,98 @@ namespace lakoparkok
             }
             read.Close();
         }
+        public void statisztika()
+        {
+            int hazakSzama;
+            double percent;
+            bool full;
+            int price;
+            int nm = 0;
+
+            for (int i = 0; i < lakoparkok.Count; i++)
+            {
+                hazakSzama = 0;
+                price = 0;
+
+                lakoparkok[i].Elso = 0;
+                lakoparkok[i].Beepitettseg = 0;
+                for (int x = 0; x < lakoparkok[i].UtcakSzama; x++)
+                {
+                    full = true;
+                    for (int y = 0; y < lakoparkok[i].MaxHazSzam; y++)
+                    {
+                        if (lakoparkok[i].Hazak[x, y] > 0)
+                        {
+                            hazakSzama++;
+                            if (lakoparkok[i].Hazak[x, y] == 1)
+                            {
+                                nm = 80;
+                            }
+                            else if (lakoparkok[i].Hazak[x, y] == 1)
+                            {
+                                nm = 150;
+                            }
+                            else if (lakoparkok[i].Hazak[x, y] == 1)
+                            {
+                                nm = 200;
+                            }
+                            price += nm * 300000;
+                        }
+                        else
+                        {
+                            full = false;
+                        }
+                    }
+                    if (full && lakoparkok[i].Elso == 0)
+                    {
+                        lakoparkok[i].Elso = x + 1;
+                    }
+                }
+                percent =
+                    (hazakSzama * 100) / (lakoparkok[i].UtcakSzama * lakoparkok[i].MaxHazSzam);
+                lakoparkok[i].Beepitettseg = percent;
+                lakoparkok[i].Bevetel = price;
+            }
+        }
+        public int firstFullStreet()
+        {
+            int first = -1;
+            int i = 0;
+            while (i < lakoparkok.Count && first == -1)
+            {
+                if (lakoparkok[i].Elso > 0)
+                {
+                    first = i;
+                }
+                i++;
+            }
+            return first;
+        }
+        public List<int> topBuildUpDensity()
+        {
+            List<int> top = new List<int>();
+
+            for (int i = 0; i < lakoparkok.Count; i++)
+            {
+                if (top.Count == 0)
+                {
+                    top.Add(i);
+                }
+                else
+                {
+                    if (lakoparkok[i].Beepitettseg == lakoparkok[(Int32)top[0]].Beepitettseg)
+                    {
+                        top.Add(i);
+                    }
+                    else if (lakoparkok[i].Beepitettseg > lakoparkok[(Int32)top[0]].Beepitettseg)
+                    {
+                        top.Clear();
+                        top.Add(i);
+                    }
+                }
+            }
+            return top;
+        }
     }
+
 }

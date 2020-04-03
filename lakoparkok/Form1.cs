@@ -138,5 +138,136 @@ namespace lakoparkok
                 LakoparkKitesz();
             }
         }
+
+        private void btnMentes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sourceFile = "lakoparkok.txt";
+                string destFile = "lakoparkok_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                System.IO.File.Copy(sourceFile, destFile, true);
+                if (File.Exists(destFile))
+                {
+                    File.Delete(sourceFile);
+
+                    using (StreamWriter sw = File.CreateText(sourceFile))
+                    {
+                        for (int i = 0; i < happyliving.Lakoparkok.Count; i++)
+                        {
+                            sw.WriteLine(happyliving.Lakoparkok[i].Nev);
+                            sw.WriteLine(happyliving.Lakoparkok[i].UtcakSzama + ";" + happyliving.Lakoparkok[i].MaxHazSzam);
+                            for (int x = 0; x < happyliving.Lakoparkok[i].UtcakSzama; x++)
+                            {
+                                for (int y = 0; y < happyliving.Lakoparkok[i].MaxHazSzam; y++)
+                                {
+                                    if (happyliving.Lakoparkok[i].Hazak[x, y] > 0)
+                                    {
+                                        sw.WriteLine((x + 1).ToString() + ";" +
+                                                     (y + 1).ToString() + ";" +
+                                                     happyliving.Lakoparkok[i].Hazak[x, y].ToString());
+                                    }
+                                }
+                            }
+                            sw.WriteLine("");
+                        }
+                    }
+
+                    if (File.Exists(sourceFile))
+                    {
+                        MessageBox.Show("A mentés sikeres!",
+                                        "",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        System.IO.File.Copy(destFile, sourceFile, true);
+                        MessageBox.Show("A mentés sikertelen!",
+                                        "",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("A mentés során hiba lépett fel!",
+                                ex.Message,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnStatisztika_Click(object sender, EventArgs e)
+        {
+            List<String> stat = new List<String>();
+            List<int> top = new List<int>();
+            int first;
+
+            happyliving.statisztika();
+
+            stat.Add(
+                "Az első lakópark, ahol van teljesen beépített utca: ");
+            first = happyliving.firstFullStreet();
+            if (first > -1)
+            {
+                stat.Add(
+                    happyliving.Lakoparkok[first].Nev +
+                    " (" + happyliving.Lakoparkok[first].Elso + ". utca)");
+            }
+            else
+            {
+                stat.Add(
+                    "  Egyik lakóparkban sincs teljesen beépített utca.");
+            }
+            stat.Add(" ");
+
+            stat.Add(
+                "Arányaiban legjobban beépített lakópark(ok):");
+            top = happyliving.topBuildUpDensity();
+            for (int i = 0; i < top.Count; i++)
+            {
+                stat.Add(
+                    "  " +
+                    happyliving.Lakoparkok[(Int32)top[i]].Nev +
+                    " (" + happyliving.Lakoparkok[(Int32)top[i]].Beepitettseg + "%)");
+            }
+            stat.Add(" ");
+
+            stat.Add(
+                "HappyLiving cég eddigi bevétele a lakóparkokból:");
+            for (int i = 0; i < happyliving.Lakoparkok.Count; i++)
+            {
+                stat.Add(
+                    "  " +
+                    happyliving.Lakoparkok[i].Nev +
+                    " (" + String.Format("{0,-14:C0}", (int)happyliving.Lakoparkok[i].Bevetel) + ")");
+            }
+
+            try
+            {
+                string destFile = "statisztika_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+
+                using (StreamWriter sw = File.CreateText(destFile))
+                {
+                    for (int i = 0; i < stat.Count; i++)
+                    {
+                        sw.WriteLine(stat[i]);
+                    }
+                }
+
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("A statisztikai adatok mentése során hiba lépett fel!",
+                                ex.Message,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+
+            /* megjelenítjük */
+            Statisztika statform = new Statisztika(stat);
+            statform.ShowDialog(this);
+        }
     }
 }

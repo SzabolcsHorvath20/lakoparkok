@@ -33,6 +33,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.bLeft = new System.Windows.Forms.Button();
             this.bRight = new System.Windows.Forms.Button();
+            this.btnStatisztika = new System.Windows.Forms.Button();
+            this.btnMentes = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbNev)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,11 +81,35 @@
             this.bRight.Visible = false;
             this.bRight.Click += new System.EventHandler(this.bRight_Click);
             // 
+            // btnStatisztika
+            // 
+            this.btnStatisztika.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStatisztika.Location = new System.Drawing.Point(9, 351);
+            this.btnStatisztika.Name = "btnStatisztika";
+            this.btnStatisztika.Size = new System.Drawing.Size(93, 32);
+            this.btnStatisztika.TabIndex = 5;
+            this.btnStatisztika.Text = "Statisztika";
+            this.btnStatisztika.UseVisualStyleBackColor = true;
+            this.btnStatisztika.Click += new System.EventHandler(this.btnStatisztika_Click);
+            // 
+            // btnMentes
+            // 
+            this.btnMentes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMentes.Location = new System.Drawing.Point(108, 351);
+            this.btnMentes.Name = "btnMentes";
+            this.btnMentes.Size = new System.Drawing.Size(93, 32);
+            this.btnMentes.TabIndex = 6;
+            this.btnMentes.Text = "Mentés";
+            this.btnMentes.UseVisualStyleBackColor = true;
+            this.btnMentes.Click += new System.EventHandler(this.btnMentes_Click);
+            // 
             // Lakoparkok
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(706, 395);
+            this.Controls.Add(this.btnMentes);
+            this.Controls.Add(this.btnStatisztika);
             this.Controls.Add(this.bRight);
             this.Controls.Add(this.bLeft);
             this.Controls.Add(this.panel1);
@@ -103,6 +129,8 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button bLeft;
         private System.Windows.Forms.Button bRight;
+        private System.Windows.Forms.Button btnStatisztika;
+        private System.Windows.Forms.Button btnMentes;
     }
 }
 
